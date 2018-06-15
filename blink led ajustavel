@@ -1,0 +1,86 @@
+module blinkled
+	(input CLOCK_50,
+	 input [9:0]SW,
+	 //input enable,
+	 input [2:0] KEY,
+	 output [0:0] LEDG
+	 );
+	 
+	 wire enable = SW[0];
+	 
+	 parameter valor_1s = 50000000;
+	 parameter valor_05s  = 25000000;
+	 parameter valor_01s  = 5000000;
+	 parameter valor_001s   = 500000;
+	 
+	 reg [31:0] r_valor_1s = 0;
+	 reg [31:0] r_valor_05s  = 0;
+	 reg [31:0] r_valor_01s  = 0;
+	 reg [31:0] r_valor_001s   = 0;
+	 
+	 reg r_alterno_1s = 1'b0;
+	 reg r_alterno_05s  = 1'b0;
+	 reg r_alterno_01s  = 1'b0;
+	 reg r_alterno_001s   = 1'b0;
+	 
+	 
+	 reg r_LEDG[0];
+	 wire w_LEDG[0];
+	 
+		always @(posedge CLOCK_50) begin
+			if(r_valor_1s == valor_1s - 1)
+			 begin
+				r_alterno_1s <= ~r_alterno_1s;
+				r_valor_1s <=0;
+			 end
+				else
+				r_valor_1s <= r_valor_1s + 1;
+				end
+				
+		always @(posedge CLOCK_50) begin
+			if(r_valor_05s == valor_05s - 1)
+			 begin
+				r_alterno_05s <= ~r_alterno_05s;
+				r_valor_05s <=0;
+			 end
+				else
+				r_valor_05s <= r_valor_05s + 1;		
+		end
+		
+		always @(posedge CLOCK_50) begin
+			if(r_valor_01s == valor_01s - 1)
+			 begin
+				r_alterno_01s <= ~r_alterno_01s;
+				r_valor_01s <=0;
+			 end
+				else
+				r_valor_01s <= r_valor_01s + 1;					
+			end
+		
+		
+		always @(posedge CLOCK_50) begin
+			if(r_valor_001s == valor_001s - 1)
+			 begin
+				r_alterno_001s <= ~r_alterno_001s;
+				r_valor_001s <=0;
+			 end
+				else
+				r_valor_001s <= r_valor_001s + 1;	
+	     end
+	
+
+
+		always @ (*)
+			begin
+				case ({KEY[0], KEY[1]})
+				2'b100 : r_LEDG[0] <= r_alterno_001s; 
+				2'b011 : r_LEDG[0] <= r_alterno_01s;
+				2'b010 : r_LEDG[0] <= r_alterno_05s;
+				2'b001 : r_LEDG[0] <= r_alterno_1s;
+				2'b000 : r_LEDG[0] <= ~enable;
+				endcase
+			end
+			
+		assign LEDG[0] = r_LEDG[0] & enable;
+		
+	endmodule
