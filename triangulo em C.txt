@@ -1,0 +1,24 @@
+ #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int main()
+{
+    int numero_de_filas;
+    printf("numero de filas a serem printadas\n");
+    scanf("%d", &numero_de_filas);
+
+    int filas,espaco_em_branco, espaco_das_estrelas;
+    for(filas=1;filas<=numero_de_filas;filas++){
+
+        for(espaco_em_branco=numero_de_filas-filas;espaco_em_branco>=1;espaco_em_branco--){
+            printf(" ");
+        }
+
+        for(espaco_das_estrelas=1;espaco_das_estrelas<=(filas*2)-1;espaco_das_estrelas++){
+            printf("*");
+    }
+            printf("\n");
+}
+ return 0;
+}
