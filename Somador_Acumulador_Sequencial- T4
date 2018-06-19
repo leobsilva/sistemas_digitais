@@ -1,0 +1,43 @@
+module somador(input clock,
+	input [31:0] ENT1,
+	input [31:0] ENT2,
+	output[31:0] OUT);
+	
+  assing OUT = saida;
+	reg [31:0] acc = 0;
+	reg [31:0] saida = 0;
+	always @(posedge clock) begin
+		acc <= ENT1 + ENT2;
+		saida = acc + saida; 
+	end
+endmodule
+
+module teste; \\exemplo
+	reg CLK_50;
+	reg[31:0] ENT1, ENT2;
+	wire[31:0] OUT;
+	always clock = ~clock;
+	somador (clock, E1, E2, S0);
+	initial begin
+		$dumpvars();
+    #0
+		CLK_50 <= 0;
+		ENT1 <= 1;
+		ENT2 <= 1;
+		//2
+		#8
+		ENT1 <= 3;
+		ENT2 <= 3;
+		//8
+		#8
+		ENT1 <= 5;
+		ENT2 <= 5;
+		//18
+		#8
+		ENT1 <= 6;
+		ENT2 <= 6;
+		//30
+		#8	
+		$finish;
+	end
+endmodule
